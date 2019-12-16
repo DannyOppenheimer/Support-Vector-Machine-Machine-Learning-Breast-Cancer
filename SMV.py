@@ -11,28 +11,28 @@ import numpy as np
 import pandas as pd
 
 # loading in our .data file as a csv using pandas
-cancerData = pd.read_csv("breast-cancer-wisconsin.data", sep=",")
-cancerData = cancerData[["clump_thickness", "uniformity_si", "uniformity_sh", "marginal_adhesion", "epithelial_size", "bare_nuclei", "bland_chromatin", "normal_nucleoli", "mitoses", "diagnosis"]]
-goalPrediction = "diagnosis"
+cancer_data = pd.read_csv("breast-cancer-wisconsin.data", sep=",")
+cancer_data = cancer_data[["clump_thickness", "uniformity_si", "uniformity_sh", "marginal_adhesion", "epithelial_size", "bare_nuclei", "bland_chromatin", "normal_nucleoli", "mitoses", "diagnosis"]]
+goal_prediction = "diagnosis"
 
 # configuring what we want our data and the prediction goal as numbers to be
-X = np.array(cancerData.drop(goalPrediction, 1))
-Y = np.array(cancerData[goalPrediction])
+X = np.array(cancer_data.drop(goal_prediction, 1))
+Y = np.array(cancer_data[goal_prediction])
 
 # splicing up which data is the training and what the final test will be on
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, Y, test_size=0.2)
 
 # using kernels to convert values into multiple dimensions and make line more accurate
-svmClf = svm.SVC(kernel="linear", C=1, probability=True)
+svm_clf = svm.SVC(kernel="linear", C=1, probability=True)
 # slapping the line in
-svmClf.fit(x_train, y_train)
+svm_clf.fit(x_train, y_train)
 
-# all of our predictions in an array
-y_prediction = svmClf.predict(x_test)
+# all of our machine's predictions in an array
+y_prediction = svm_clf.predict(x_test)
 
 # accuracy of our hyperplane splitting
 accuracy = metrics.accuracy_score(y_test, y_prediction)
-print(accuracy)
+print("Accuracy: ", "%.01f" % (accuracy * 100), "%", sep="")
 
 # in our data set, malignant is a value of 2 and benign is a value of 4
 # we are replacing them to make it more readible
